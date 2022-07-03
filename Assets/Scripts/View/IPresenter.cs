@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace View
 {
@@ -12,5 +13,6 @@ namespace View
         public void ChangeTopScore(int topScore);
         public void ShowStartMenu();
         public void ShowGameOverMenu();
+        public void UpdateNextFigure((Sprite, Color) tuple);
     }
 }
