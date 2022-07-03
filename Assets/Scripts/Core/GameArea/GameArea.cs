@@ -6,7 +6,7 @@ namespace Core
 {
     public class GameArea
     {
-        private readonly FigureSpawn _figureSpawn;
+        private readonly FigureSpawner _figureSpawn;
         private GameGrid _grid;
         private GridView _gridView;
 
@@ -14,7 +14,7 @@ namespace Core
         private readonly int _columns = 10;
         private readonly int _minEmptyRows = 6;
 
-        public GameArea(GridView gridView, FigureSpawn figureSpawn)
+        public GameArea(GridView gridView, FigureSpawner figureSpawn)
         {
             _grid = new GameGrid(_rows, _columns);
             _figureSpawn = figureSpawn;
@@ -22,7 +22,7 @@ namespace Core
             _gridView.Initialize(_grid);
         }
 
-        private Position[] GetPositions() => _figureSpawn.GetFigure.PiecePositions;
+        private Position[] GetPositions() => _figureSpawn.CurrentFigure.PiecePositions;
 
         private int CellDistanceToBoard(Position position)
         {
@@ -74,7 +74,7 @@ namespace Core
                 _grid[GetPositions()[i].Row, GetPositions()[i].Column] = 1;
             }
 
-            _gridView.SetBlocks(GetPositions(), _figureSpawn.GetFigure);
+            _gridView.SetBlocks(GetPositions(), _figureSpawn.CurrentFigure);
         }
 
         public int ClearFullRows()

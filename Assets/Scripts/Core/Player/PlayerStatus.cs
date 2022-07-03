@@ -32,6 +32,11 @@
 
         public void AddScore(int score)
         {
+            if (score == 0)
+            {
+                return;
+            }
+
             _score += score * _multiple;
         }
 

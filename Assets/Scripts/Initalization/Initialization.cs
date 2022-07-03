@@ -8,6 +8,7 @@ namespace Init
     public class Initialization : MonoBehaviour
     {
         [Header("UI")]
+        [SerializeField] private InfoMenu _infoMenul;
         [SerializeField] private StartMenu _startMenu;
         [SerializeField] private PauseMenu _pauseMenu;
         [SerializeField] private GameOverMenu _gameOverMenu;
@@ -19,8 +20,7 @@ namespace Init
         [SerializeField] private GameLoop _gameLoop;
         [SerializeField] private SafeAreaSetter _safeAreaSetter;
         [SerializeField] private GridView _gridView;
-        [SerializeField] private FigureSpawn _figureSpawn;
-        [SerializeField] private FigurePool _figurePool;
+        [SerializeField] private FigureSpawner _figureSpawn;
 
         private PauseSetter _pauseSetter;
         private GameArea _gameArea;
@@ -42,14 +42,13 @@ namespace Init
             _touchInput = new TouchInput();
             _screenInfo = new ScreenInfo();
             _saveSystem = new SaveSystem();
-            _figurePool.Init();
-            _figureSpawn.Initialize(_figurePool);
+            _figureSpawn.Initialize();
             _gameArea = new GameArea(_gridView, _figureSpawn);
             _figureControl = new FigureControl(_touchInput, _gameArea, _screenInfo);
             _gameLoop.Initialize(_figureControl, _touchInput, _playerStatus);
             _pauseSetter = new PauseSetter();
             _pauseSetter.Register(_gameLoop);
-            _presenter = new Presenter(_startMenu, _pauseMenu, _gameOverMenu, _pauseButton, _score);
+            _presenter = new Presenter(_startMenu, _pauseMenu, _gameOverMenu, _infoMenul, _score);
             _playerStatus = new PlayerStatus(_saveSystem);
             _gameState = new GameState(_playerStatus, _figureControl, _figureSpawn, _gameArea, _presenter, _pauseSetter);
         }

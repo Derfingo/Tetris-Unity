@@ -33,6 +33,11 @@ namespace Core
             return _view.GetTile();
         }
 
+        public (Sprite, Color) GetSprite()
+        {
+            return _view.GetSprite();
+        }
+
         public void ResetPositions()
         {
             _movement.ResetPositions();

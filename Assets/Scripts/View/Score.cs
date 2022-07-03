@@ -12,6 +12,11 @@ namespace View
 
         public void UpdateScoreText(int score)
         {
+            if (score == 0)
+            {
+                return;
+            }
+
             _scoreText.SetText("{000000:0}", _score += score);
         }
 

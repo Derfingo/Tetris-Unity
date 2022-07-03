@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine.UI;
+using UnityEngine;
 
 namespace View
 {
@@ -12,18 +12,18 @@ namespace View
         private readonly StartMenu _startMenu;
         private readonly PauseMenu _pauseMenu;
         private readonly GameOverMenu _gameOverMenu;
-        private readonly Button _pauseButton;
+        private readonly InfoMenu _infoMenu;
         private readonly Score _score;
 
-        public Presenter(StartMenu startMenu, PauseMenu pauseMenu, GameOverMenu gameOverMenu, Button pauseButton, Score score)
+        public Presenter(StartMenu startMenu, PauseMenu pauseMenu, GameOverMenu gameOverMenu, InfoMenu infoMenu, Score score)
         {
             _startMenu = startMenu;
             _pauseMenu = pauseMenu;
             _gameOverMenu = gameOverMenu;
-            _pauseButton = pauseButton;
+            _infoMenu = infoMenu;
             _score = score;
 
-            _pauseButton.onClick.AddListener(OnPauseButton);
+            _infoMenu.PauseButton.onClick.AddListener(OnPauseButton);
             _startMenu.StartButton.onClick.AddListener(OnStartButton);
             _pauseMenu.ResumeButton.onClick.AddListener(OnResumeButton);
             _pauseMenu.RestartButton.onClick.AddListener(OnRestartButton);
@@ -74,6 +74,11 @@ namespace View
         public void ShowGameOverMenu()
         {
             _gameOverMenu.Show();
+        }
+
+        public void UpdateNextFigure((Sprite, Color) tuple)
+        {
+            _infoMenu.UpdateNextFigure(tuple);
         }
     }
 }

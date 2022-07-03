@@ -6,12 +6,14 @@ namespace Core
     {
         private readonly PlayerStatus _playerStatus;
         private readonly FigureControl _figureControl;
-        private readonly FigureSpawn _figureSpawn;
+        private readonly FigureSpawner _figureSpawn;
         private readonly GameArea _gameArea;
         private readonly IPresenter _presenter;
         private readonly IPause _pause;
 
-        public GameState(PlayerStatus playerStatus, FigureControl playerControl, FigureSpawn figureSpawn, GameArea gameArea, IPresenter presenter, IPause pause)
+        private Figure _currentFigure;
+
+        public GameState(PlayerStatus playerStatus, FigureControl playerControl, FigureSpawner figureSpawn, GameArea gameArea, IPresenter presenter, IPause pause)
         {
             _playerStatus = playerStatus;
             _figureControl = playerControl;
@@ -38,19 +40,21 @@ namespace Core
 
         private void StartGame()
         {
-            _figureSpawn.SpawnNext();
-            _figureControl.GetFigure(_figureSpawn.GetFigure);
+            _currentFigure = _figureSpawn.SpawnNext();
+            _figureControl.GetFigure(_currentFigure);
+            _presenter.UpdateNextFigure(_figureSpawn.NextFigure.GetSprite());
             _pause.SetPause(true);
         }
 
         private void RestartGame()
         {
-            _figureSpawn.ReturnFigure();
             _gameArea.ClearGrid();
             _playerStatus.ResetScore();
             _presenter.ChangeTopScore(_playerStatus.BestScore);
-            _figureSpawn.SpawnNext();
-            _figureControl.GetFigure(_figureSpawn.GetFigure);
+            _figureSpawn.ReturnFigure(_currentFigure);
+            _currentFigure = _figureSpawn.SpawnNext();
+            _figureControl.GetFigure(_currentFigure);
+            _presenter.UpdateNextFigure(_figureSpawn.NextFigure.GetSprite());
             _pause.SetPause(true);
         }
 
@@ -73,13 +77,14 @@ namespace Core
             int score = _gameArea.ClearFullRows();
             _playerStatus.AddScore(score);
             _presenter.ChangeScore(_playerStatus.Score);
-            _figureSpawn.ReturnFigure();
+            _figureSpawn.ReturnFigure(_currentFigure);
             if (!_gameArea.CheckEmptyRows())
             {
                 GameOver();
             }
-            _figureSpawn.SpawnNext();
-            _figureControl.GetFigure(_figureSpawn.GetFigure);
+            _currentFigure = _figureSpawn.SpawnNext();
+            _figureControl.GetFigure(_currentFigure);
+            _presenter.UpdateNextFigure(_figureSpawn.NextFigure.GetSprite());
         }
     }
 }
