@@ -8,17 +8,19 @@ namespace Core
         private readonly FigureControl _figureControl;
         private readonly FigureSpawner _figureSpawn;
         private readonly GameArea _gameArea;
+        private readonly GameLoop _gameLoop;
         private readonly IPresenter _presenter;
         private readonly IPause _pause;
 
         private Figure _currentFigure;
 
-        public GameState(PlayerStatus playerStatus, FigureControl playerControl, FigureSpawner figureSpawn, GameArea gameArea, IPresenter presenter, IPause pause)
+        public GameState(PlayerStatus playerStatus, FigureControl playerControl, FigureSpawner figureSpawn, GameArea gameArea, IPresenter presenter, IPause pause, GameLoop gameLoop)
         {
             _playerStatus = playerStatus;
             _figureControl = playerControl;
             _figureSpawn = figureSpawn;
             _gameArea = gameArea;
+            _gameLoop = gameLoop;
 
             _presenter = presenter;
             _pause = pause;
@@ -50,6 +52,7 @@ namespace Core
         {
             _gameArea.ClearGrid();
             _playerStatus.ResetScore();
+            _gameLoop.ResetTime();
             _presenter.ChangeTopScore(_playerStatus.BestScore);
             _figureSpawn.ReturnFigure(_currentFigure);
             _currentFigure = _figureSpawn.SpawnNext();
@@ -67,6 +70,7 @@ namespace Core
         {
             _playerStatus.SaveData();
             _playerStatus.ResetScore();
+            _gameLoop.ResetTime();
             _presenter.ShowGameOverMenu();
             _pause.SetPause(false);
         }

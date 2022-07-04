@@ -45,12 +45,12 @@ namespace Init
             _figureSpawn.Initialize();
             _gameArea = new GameArea(_gridView, _figureSpawn);
             _figureControl = new FigureControl(_touchInput, _gameArea, _screenInfo);
-            _gameLoop.Initialize(_figureControl, _touchInput, _playerStatus);
+            _gameLoop.Initialize(_figureControl, _touchInput);
             _pauseSetter = new PauseSetter();
             _pauseSetter.Register(_gameLoop);
             _presenter = new Presenter(_startMenu, _pauseMenu, _gameOverMenu, _infoMenul, _score);
             _playerStatus = new PlayerStatus(_saveSystem);
-            _gameState = new GameState(_playerStatus, _figureControl, _figureSpawn, _gameArea, _presenter, _pauseSetter);
+            _gameState = new GameState(_playerStatus, _figureControl, _figureSpawn, _gameArea, _presenter, _pauseSetter, _gameLoop);
         }
     }
 }
