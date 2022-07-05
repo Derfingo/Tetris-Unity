@@ -8,8 +8,6 @@ namespace View
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _topScoreText;
 
-        private int _score = 0;
-
         public void UpdateScoreText(int score)
         {
             if (score == 0)
@@ -17,7 +15,7 @@ namespace View
                 return;
             }
 
-            _scoreText.SetText("{000000:0}", _score += score);
+            _scoreText.SetText("{000000:0}", score);
         }
 
         public void UpdateTopScoreText(int topScore)

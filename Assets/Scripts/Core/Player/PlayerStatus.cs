@@ -12,20 +12,19 @@
         public PlayerStatus(ISaveSystem saveSystem)
         {
             _saveSystem = saveSystem;
-            LoadData();
         }
 
         public void SaveData()
         {
-            _saveData = new SaveData();
             if (_score > _saveData.BestScore)
             {
                 _saveData.BestScore = _score;
             }
+
             _saveSystem.Save(_saveData);
         }
 
-        private void LoadData()
+        public void LoadData()
         {
             _saveData = _saveSystem.Load();
         }

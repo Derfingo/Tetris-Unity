@@ -36,6 +36,7 @@ namespace Core
         private void InitialState()
         {
             _presenter.ShowStartMenu();
+            _playerStatus.LoadData();
             _presenter.ChangeTopScore(_playerStatus.BestScore);
             _pause.SetPause(false);
         }
